@@ -1,0 +1,6 @@
+@BloodWorkDocument_API_HostAddress = http://localhost:5155
+
+GET {{BloodWorkDocument_API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
