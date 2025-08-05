@@ -3,6 +3,7 @@ using BloodWorkDocument_API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading;
 
 namespace BloodWorkDocument_API.Controllers
@@ -24,40 +25,31 @@ namespace BloodWorkDocument_API.Controllers
             var json = await _bloodWorkDocumentService.ExtractToJsonAsync(dto.File.OpenReadStream(), dto.FileName);
             return Ok(json);
         }
+
         [HttpPost("upload/raw")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> GetRawDocument([FromForm][Required] BloodWorkUploadDTO dto)
         {
-            var json = await _bloodWorkDocumentService.GetRawDocument(dto.File.OpenReadStream(), dto.FileName);
+            var json = await _bloodWorkDocumentService.GetRawDocument(dto.File.OpenReadStream());
             return Ok(json);
         }
-        [HttpPost("upload/raw2")]
+
+        /* Just commenting this so it makes it into the commit, but we don't need it right now.
+        [HttpPost("upload/raw")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> GetRawDocument2([FromForm][Required] BloodWorkUploadDTO dto)
+        public async Task<IActionResult> GetRawDocumentAsDictionary([FromForm][Required] BloodWorkUploadDTO dto)
         {
-            var json = await _bloodWorkDocumentService.GetRawDocument2(dto.File.OpenReadStream(), dto.FileName);
-            return Ok(json);
+            var tupleList = await _bloodWorkDocumentService.GetRawDocumentAsDictionary(dto.File.OpenReadStream());
+            var lines = tupleList.Select(t =>
+                $"    {{ \"{EscapeForCSharp(t.Left)}\", \"{EscapeForCSharp(t.Right)}\" }},");
+            var result = string.Join("\n", lines);
+            return Ok(result);
         }
-        [HttpPost("upload/raw3")]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> GetRawDocument3([FromForm][Required] BloodWorkUploadDTO dto, double xThreshold)
+
+        private static string EscapeForCSharp(string input)
         {
-            var json = await _bloodWorkDocumentService.GetRawDocument3(dto.File.OpenReadStream(), dto.FileName, xThreshold);
-            return Ok(json);
-        }
-        [HttpPost("upload/raw4")]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> GetRawDocument4([FromForm][Required] BloodWorkUploadDTO dto)
-        {
-            var json = await _bloodWorkDocumentService.GetRawDocument4(dto.File.OpenReadStream(), dto.FileName);
-            return Ok(json);
-        }
-        [HttpPost("upload/raw6")]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> GetRawDocument6([FromForm][Required] BloodWorkUploadDTO dto)
-        {
-            var json = await _bloodWorkDocumentService.GetRawDocument6(dto.File.OpenReadStream());
-            return Ok(json);
-        }
+            if (input == null) return string.Empty;
+            return input.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "");
+        }*/
     }
 }

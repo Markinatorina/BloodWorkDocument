@@ -13,4 +13,8 @@
     <PackageReference Include="Tabula" Version="0.1.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extracted\" />
+  </ItemGroup>
+
 </Project>
