@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="PdfPig" Version="0.1.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Tabula" Version="0.1.5" />
   </ItemGroup>
 
 </Project>

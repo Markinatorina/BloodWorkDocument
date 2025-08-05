@@ -24,5 +24,40 @@ namespace BloodWorkDocument_API.Controllers
             var json = await _bloodWorkDocumentService.ExtractToJsonAsync(dto.File.OpenReadStream(), dto.FileName);
             return Ok(json);
         }
+        [HttpPost("upload/raw")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> GetRawDocument([FromForm][Required] BloodWorkUploadDTO dto)
+        {
+            var json = await _bloodWorkDocumentService.GetRawDocument(dto.File.OpenReadStream(), dto.FileName);
+            return Ok(json);
+        }
+        [HttpPost("upload/raw2")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> GetRawDocument2([FromForm][Required] BloodWorkUploadDTO dto)
+        {
+            var json = await _bloodWorkDocumentService.GetRawDocument2(dto.File.OpenReadStream(), dto.FileName);
+            return Ok(json);
+        }
+        [HttpPost("upload/raw3")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> GetRawDocument3([FromForm][Required] BloodWorkUploadDTO dto, double xThreshold)
+        {
+            var json = await _bloodWorkDocumentService.GetRawDocument3(dto.File.OpenReadStream(), dto.FileName, xThreshold);
+            return Ok(json);
+        }
+        [HttpPost("upload/raw4")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> GetRawDocument4([FromForm][Required] BloodWorkUploadDTO dto)
+        {
+            var json = await _bloodWorkDocumentService.GetRawDocument4(dto.File.OpenReadStream(), dto.FileName);
+            return Ok(json);
+        }
+        [HttpPost("upload/raw6")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> GetRawDocument6([FromForm][Required] BloodWorkUploadDTO dto)
+        {
+            var json = await _bloodWorkDocumentService.GetRawDocument6(dto.File.OpenReadStream());
+            return Ok(json);
+        }
     }
 }
