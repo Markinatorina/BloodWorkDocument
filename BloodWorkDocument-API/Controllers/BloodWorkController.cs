@@ -30,16 +30,22 @@ namespace BloodWorkDocument_API.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> GetRawDocument([FromForm][Required] BloodWorkUploadDTO dto)
         {
-            var json = await _bloodWorkDocumentService.GetRawDocument(dto.File.OpenReadStream());
+            var json = await _bloodWorkDocumentService.GetRawDocumentAsJson(dto.File.OpenReadStream());
+            return Ok(json);
+        }
+        [HttpPost("upload/preprocessed")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> GetDocument([FromForm][Required] BloodWorkUploadDTO dto)
+        {
+            var json = await _bloodWorkDocumentService.GetPreprocessedDocumentAsJson(dto.File.OpenReadStream());
             return Ok(json);
         }
 
-        /* Just commenting this so it makes it into the commit, but we don't need it right now.
-        [HttpPost("upload/raw")]
+        [HttpPost("upload/dictionary")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> GetRawDocumentAsDictionary([FromForm][Required] BloodWorkUploadDTO dto)
         {
-            var tupleList = await _bloodWorkDocumentService.GetRawDocumentAsDictionary(dto.File.OpenReadStream());
+            var tupleList = await _bloodWorkDocumentService.GetDocumentAsDictionary(dto.File.OpenReadStream());
             var lines = tupleList.Select(t =>
                 $"    {{ \"{EscapeForCSharp(t.Left)}\", \"{EscapeForCSharp(t.Right)}\" }},");
             var result = string.Join("\n", lines);
@@ -50,6 +56,6 @@ namespace BloodWorkDocument_API.Controllers
         {
             if (input == null) return string.Empty;
             return input.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "");
-        }*/
+        }
     }
 }
